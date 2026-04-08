@@ -6,7 +6,7 @@ import CartPage from "./pages/CartPage";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
 import ProductDetailPage from "./pages/ProductDetail.page";
 import CheckoutPage from "./pages/checkoutPage";
-import LoginPage from "./pages/ LoginPage";
+import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
