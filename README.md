@@ -1,4 +1,9 @@
 # Amazon E-Commerce Frontend
+## Screenshots
+
+![Home](./screenshot-home.png)
+![Product](./screenshot-product.png)
+![Cart](./screenshot-cart.png)
 
 A responsive e-commerce frontend application built with React, TypeScript, Vite, and Tailwind CSS.
 
