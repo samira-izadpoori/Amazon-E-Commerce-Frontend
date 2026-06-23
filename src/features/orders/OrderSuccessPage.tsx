@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { fetchOrder } from "../api/orders";
+import { fetchOrder } from "../../api/orders";
 
 export default function OrderSuccessPage() {
   const { id } = useParams();
@@ -11,23 +11,26 @@ export default function OrderSuccessPage() {
     enabled: !!id,
   });
 
-  if (isLoading)
+  if (isLoading) {
     return (
       <main className="mx-auto max-w-3xl px-4 py-6 text-slate-600">
         Loading order...
       </main>
     );
-  if (isError || !data)
+  }
+
+  if (isError || !data) {
     return (
       <main className="mx-auto max-w-3xl px-4 py-6 text-red-700">
         Order not found.
       </main>
     );
+  }
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-6">
       <div className="rounded-2xl border bg-white p-6 shadow-sm">
-        <h1 className="text-2xl font-bold">Order placed ✅</h1>
+        <h1 className="text-2xl font-bold">Order placed</h1>
         <p className="mt-2 text-slate-600">
           Order ID: <span className="font-mono">{data.id}</span>
         </p>
@@ -40,21 +43,23 @@ export default function OrderSuccessPage() {
 
         <h2 className="mt-5 font-semibold">Items</h2>
         <ul className="mt-2 space-y-2">
-          {data.items.map((it: any) => (
+          {data.items.map((item: any) => (
             <li
-              key={it.id}
+              key={item.id}
               className="flex justify-between rounded-xl bg-slate-50 p-3"
             >
               <span>
-                {it.title} × {it.quantity}
+                {item.title} x {item.quantity}
               </span>
-              <span className="font-semibold">{it.price * it.quantity}</span>
+              <span className="font-semibold">
+                {item.price * item.quantity}
+              </span>
             </li>
           ))}
         </ul>
 
         <Link
-          to="/"
+          to="/products"
           className="mt-5 inline-block rounded-xl bg-slate-900 px-4 py-2 font-semibold text-white hover:bg-slate-800"
         >
           Back to products

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../api/auth";
-import { useAuth } from "../pages/features/auth/AuthContext";
+import { login } from "../../api/auth";
+import { useAuth } from "./AuthContext";
 
 
 export default function LoginPage() {

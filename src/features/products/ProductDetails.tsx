@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { fetchProduct } from "../api/products";
-import { useCart } from "../pages/features/cart/CartContext";
+import { fetchProduct } from "../../api/products";
+import { useCart } from "../cart/CartContext";
 
 function formatUSD(amount: number) {
   return new Intl.NumberFormat("en-US", {
@@ -10,7 +10,11 @@ function formatUSD(amount: number) {
   }).format(amount);
 }
 
-export default function ProductDetailPage() {
+function getProductImage(title: string, image?: string) {
+  return image || `https://picsum.photos/seed/${encodeURIComponent(title)}/900/700`;
+}
+
+export default function ProductDetails() {
   const { id } = useParams();
   const { addItem } = useCart();
 
@@ -23,7 +27,7 @@ export default function ProductDetailPage() {
   if (isLoading) {
     return (
       <main className="mx-auto max-w-6xl px-4 py-8">
-        <div className="rounded-2xl border bg-white p-8 text-center shadow-sm">
+        <div className="rounded-lg border bg-white p-8 text-center shadow-sm">
           <p className="text-slate-600">Loading product...</p>
         </div>
       </main>
@@ -33,7 +37,7 @@ export default function ProductDetailPage() {
   if (isError || !data) {
     return (
       <main className="mx-auto max-w-6xl px-4 py-8">
-        <div className="rounded-2xl border bg-white p-8 text-center shadow-sm">
+        <div className="rounded-lg border bg-white p-8 text-center shadow-sm">
           <h1 className="text-xl font-bold text-red-600">Product not found</h1>
           <div className="mt-4 flex justify-center gap-3">
             <button
@@ -65,26 +69,22 @@ export default function ProductDetailPage() {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        <div className="overflow-hidden rounded-2xl border bg-white shadow-sm">
-          <div className="aspect-[4/3] w-full overflow-hidden bg-slate-100">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+          <div className="aspect-[5/4] w-full overflow-hidden bg-gradient-to-br from-slate-50 via-white to-amber-50">
             <img
-              src={
-                data.image ||
-                `https://picsum.photos/seed/${encodeURIComponent(data.title)}/900/700`
-              }
+              src={getProductImage(data.title, data.image)}
               alt={data.title}
               loading="lazy"
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src =
-                  `https://picsum.photos/seed/${encodeURIComponent(data.title)}/900/700`;
+                e.currentTarget.src = getProductImage(data.title);
               }}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-contain p-8"
             />
           </div>
         </div>
 
-        <div className="rounded-2xl border bg-white p-6 shadow-sm">
+        <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
           <div className="flex flex-wrap items-center gap-3">
             <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700">
               {data.category}
@@ -130,8 +130,8 @@ export default function ProductDetailPage() {
               }
               className={
                 data.stock <= 0
-                  ? "w-full rounded-lg bg-slate-200 px-5 py-3 text-sm font-semibold text-slate-500"
-                  : "w-full rounded-lg bg-slate-900 px-5 py-3 text-sm font-semibold text-white hover:bg-slate-800"
+                  ? "w-full rounded-lg bg-slate-100 px-5 py-3 text-sm font-semibold text-slate-500"
+                  : "w-full rounded-lg bg-amber-500 px-5 py-3 text-sm font-bold text-slate-950 hover:bg-amber-400"
               }
             >
               {data.stock <= 0 ? "Unavailable" : "Add to Cart"}

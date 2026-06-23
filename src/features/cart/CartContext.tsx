@@ -1,10 +1,11 @@
-import React, {
+import {
   createContext,
   useContext,
   useEffect,
   useMemo,
   useReducer,
 } from "react";
+import type { ReactNode } from "react";
 import { cartReducer, initialCartState } from "./cartReducer";
 import type { CartItem, CartState } from "./cartTypes";
 
@@ -14,45 +15,44 @@ type CartContextValue = {
   removeItem: (id: string) => void;
   setQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
-
   totalItems: number;
   totalPrice: number;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
-
 const STORAGE_KEY = "cart_v1";
 
 function loadCartFromStorage(): CartState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return initialCartState;
-    const parsed = JSON.parse(raw) as CartState;
 
-    // basic validation
-    if (!parsed?.items || !Array.isArray(parsed.items)) return initialCartState;
+    const parsed = JSON.parse(raw) as CartState;
+    if (!parsed?.items || !Array.isArray(parsed.items)) {
+      return initialCartState;
+    }
+
     return parsed;
   } catch {
     return initialCartState;
   }
 }
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
+export function CartProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(
     cartReducer,
     undefined,
     loadCartFromStorage,
   );
 
-  // Persist to localStorage
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }, [state]);
 
-  const value: CartContextValue = useMemo(() => {
-    const totalItems = state.items.reduce((sum, it) => sum + it.quantity, 0);
+  const value = useMemo<CartContextValue>(() => {
+    const totalItems = state.items.reduce((sum, item) => sum + item.quantity, 0);
     const totalPrice = state.items.reduce(
-      (sum, it) => sum + it.price * it.quantity,
+      (sum, item) => sum + item.price * item.quantity,
       0,
     );
 
@@ -64,7 +64,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       setQuantity: (id, quantity) =>
         dispatch({ type: "SET_QUANTITY", payload: { id, quantity } }),
       clearCart: () => dispatch({ type: "CLEAR_CART" }),
-
       totalItems,
       totalPrice,
     };
@@ -75,6 +74,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
 export function useCart() {
   const ctx = useContext(CartContext);
-  if (!ctx) throw new Error("useCart must be used inside <CartProvider>");
+
+  if (!ctx) {
+    throw new Error("useCart must be used inside <CartProvider>");
+  }
+
   return ctx;
 }

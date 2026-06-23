@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useCart } from "../pages/features/cart/CartContext";
+import { useCart } from "../features/cart/CartContext";
 import { ShoppingCart } from "lucide-react";
 
 export default function Navbar() {
