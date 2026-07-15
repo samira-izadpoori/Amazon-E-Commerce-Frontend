@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import LoginPage from "../features/auth/LoginPage";
+import ProfilePage from "../features/auth/ProfilePage";
 import RegisterPage from "../features/auth/RegisterPage";
 import ProtectedRoute from "../features/auth/ProtectedRoute";
 
@@ -12,6 +13,15 @@ import OrderSuccessPage from "../features/orders/OrderSuccessPage";
 
 import ProductDetails from "../features/products/ProductDetails";
 import ProductsPage from "../features/products/ProductsPage";
+
+
+import DashboardLayout from "../layouts/DashboardLayout";
+
+import OverviewPage from "../pages/dashboard/OverviewPage";
+import DashboardProfilePage from "../pages/dashboard/ProfilePage";
+import DashboardOrdersPage from "../pages/dashboard/OrdersPage";
+import WishlistPage from "../pages/dashboard/WishlistPage";
+import SettingsPage from "../pages/dashboard/SettingsPage";
 
 import NotFoundPage from "./NotFoundPage";
 
@@ -48,6 +58,15 @@ export default function AppRoutes() {
       />
 
       <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
         path="/order-success/:id"
         element={
           <ProtectedRoute>
@@ -55,6 +74,22 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
+      {/* Dashboard Routes */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<OverviewPage />} />
+        <Route path="profile" element={<DashboardProfilePage />} />
+        <Route path="orders" element={<DashboardOrdersPage />} />
+        <Route path="wishlist" element={<WishlistPage />} />
+        <Route path="settings" element={<SettingsPage />} />
+      </Route>
 
       {/* 404 */}
       <Route path="*" element={<NotFoundPage />} />

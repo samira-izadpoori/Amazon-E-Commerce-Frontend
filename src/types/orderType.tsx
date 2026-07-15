@@ -12,5 +12,6 @@ export type CreateOrderPayload = {
     title: string;
     price: number;
     quantity: number;
+    image?: string;
   }>;
 };

@@ -47,6 +47,7 @@ export default function CheckoutPage() {
           title: it.title,
           price: it.price,
           quantity: it.quantity,
+          image: it.image,
         })),
       });
 

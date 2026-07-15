@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import type { ReactNode } from "react";
+import { Children, type ReactNode } from "react";
 import { useAuth } from "./AuthContext";
 
 type Props = {
@@ -15,3 +15,4 @@ export default function ProtectedRoute({ children }: Props) {
 
   return <>{children}</>;
 }
+
