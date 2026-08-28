@@ -1,4 +1,7 @@
 # Amazon E-Commerce Frontend
+
+## Backend Repository
+[Amazon E-Commerce Backend](https://github.com/samira-izadpoori/Amazon-E-Commerce-Backend)
 ## Screenshots
 
 ![Home](./screenshot-home.png)
@@ -25,17 +28,5 @@ This project focuses on creating a modern shopping experience with clean UI, reu
 - TypeScript
 - Vite
 - Tailwind CSS
+- Vitest
 
-## Project Purpose
-
-This project was built to strengthen my front-end development skills and practice building real-world e-commerce interfaces using modern web technologies.
-
-## Backend Repository
-
-The backend for this project is available here:
-
-[Amazon E-Commerce Backend](https://github.com/samira-izadpoori/Amazon-E-Commerce-Backend)
-
-## Author
-
-Created by Samira Izadpoori
